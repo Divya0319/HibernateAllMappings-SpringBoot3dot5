@@ -1,1 +1,1 @@
-# HibernateAllMappings-SpringBoot3dot5
+# HibernateAllMappings created in SpringBoot 3.5.0
