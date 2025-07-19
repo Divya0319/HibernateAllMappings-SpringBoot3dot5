@@ -1,0 +1,1 @@
+# HibernateAllMappings-SpringBoot3dot5
