@@ -44,7 +44,7 @@ public class CoderServiceImpl implements CoderService {
 	
 	@Override
 	@Transactional
-	@PreAuthorize("hasAuthority('SCOPE_user.read')")
+	@PreAuthorize("hasAuthority('SCOPE_access.coders')")
 	public List<Coder> fetchAllCoders() {
 		return coderDao.fetchAllCoders();
 	}
