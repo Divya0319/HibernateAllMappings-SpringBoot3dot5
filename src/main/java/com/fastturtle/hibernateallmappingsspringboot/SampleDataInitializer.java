@@ -6,7 +6,7 @@ import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-@Component
+//@Component
 public class SampleDataInitializer {
 	
 //	private final CoderRepository coderRepository;
@@ -14,7 +14,7 @@ public class SampleDataInitializer {
 //	private final BookReferredRepository bookReferredRepository;
 	private final DesignerRepository designerRepository;
 	
-	@Autowired
+//	@Autowired
 	public SampleDataInitializer(
 //            CoderRepository coderRepository, CoderDetailRepository coderDetailRepository,
 //            BookReferredRepository bookReferredRepository, BookReviewRepository bookReviewRepository,
@@ -26,7 +26,7 @@ public class SampleDataInitializer {
 		this.designerRepository = designerRepository;
 	}
 	
-	@PostConstruct
+//	@PostConstruct
 	public void init() {
 		insertIntoEntitiesOneByOne();
 	}

@@ -14,7 +14,7 @@ public interface CoderService {
 	
 	public boolean addCoderDetailToCoder(CoderDetail coderDetail, int coderId);
 
-	public void addBookReferredToCoder(BookReferred booksReferred, int coderId);
+	public boolean addBookReferredToCoder(BookReferred booksReferred, int coderId);
 	
 	public List<Coder> fetchAllCoders();
 	

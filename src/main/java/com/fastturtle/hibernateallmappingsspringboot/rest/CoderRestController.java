@@ -30,15 +30,12 @@ import com.fastturtle.hibernateallmappingsspringboot.service.CoderService;
 @RequestMapping("/api")
 public class CoderRestController {
 	
-private CoderService coderService;
-	
-	
-	@Autowired
+	private final CoderService coderService;
+
 	public CoderRestController(CoderService coderService) {
 		this.coderService = coderService;
 	}
-	
-	
+
 	@GetMapping("/coders")
 	public List<?> fetchAllCoders(HttpServletResponse response) {
 		
@@ -47,7 +44,7 @@ private CoderService coderService;
 		
 		List<Coder> tempCoders = coders;
 
-		if(coders.size() == 0) {
+		if(coders.isEmpty()) {
 			response.setStatus(HttpStatus.NOT_FOUND.value());
 			ResponseObject res = new ResponseObject();
 			res.setMessage("No coders available");
@@ -463,11 +460,15 @@ private CoderService coderService;
 		
 		
 				
-		coderService.addBookReferredToCoder(booksReferred, coderId);
+		boolean isSaved = coderService.addBookReferredToCoder(booksReferred, coderId);
 		
-		
-		response.setStatus(HttpStatus.OK.value());
-		resp.setMessage("Book added successfully to coder with id : " + coderId);
+		if(isSaved) {
+			response.setStatus(HttpStatus.OK.value());
+			resp.setMessage("Book added successfully to coder with id : " + coderId);
+		} else {
+			response.setStatus(HttpStatus.BAD_REQUEST.value());
+			resp.setMessage("No coder found with id : " + coderId);
+		}
 				
 		return resp;
 		
