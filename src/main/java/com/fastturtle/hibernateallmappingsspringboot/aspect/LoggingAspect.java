@@ -21,7 +21,7 @@ public class LoggingAspect {
 	
 	Logger theLogger = LoggerFactory.getLogger(this.getClass());
 	
-	@Pointcut("execution(* com.fastturtle.hibernateallmappingsspringboot.rest.CoderRestController.*(..))")
+	@Pointcut("execution(* com.fastturtle.hibernateallmappingsspringboot.controllers.CoderRestController.*(..))")
 	private void forControllerPackage() {}
 	
 	@AfterReturning(pointcut="forControllerPackage()", returning="result")
