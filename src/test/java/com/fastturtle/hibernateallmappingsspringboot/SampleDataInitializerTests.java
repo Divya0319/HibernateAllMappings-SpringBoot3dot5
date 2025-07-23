@@ -52,6 +52,14 @@ public class SampleDataInitializerTests {
                 "The Catcher in the Rye"
         };
 
+        String[] thumbnailUrls = {
+                "https://i.ibb.co/yBVrZZdK/the-great-gatsby.jpg",
+                "https://i.ibb.co/27XT2j7w/to-kill-a-mockingbird.jpg",
+                "https://i.ibb.co/jk8KfkH2/1984.jpg",
+                "https://i.ibb.co/0y8XMZD4/pride-and-prejudice.jpg",
+                "https://i.ibb.co/8g6mD9Qj/catcher-in-the-rye.jpg"
+        };
+
         // Sample data for BookReview
         String[] comments = {
                 "Great book, highly recommended.",
@@ -80,7 +88,7 @@ public class SampleDataInitializerTests {
             BookReview bookReview = new BookReview(comments[i]);
 
             // Add BookReview and Coder to BookReferred(BookReview will be saved because of cascade)
-            BookReferred bookReferred = new BookReferred(bookTitles[i]);
+            BookReferred bookReferred = new BookReferred(bookTitles[i], thumbnailUrls[i]);
             bookReferred.addBookReview(bookReview);
             bookReferred.setCoder(coder);
             coder.addBook(bookReferred);
