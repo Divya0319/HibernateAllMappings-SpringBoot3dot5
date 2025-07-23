@@ -32,13 +32,16 @@ public class BookReferred {
 				inverseJoinColumns=@JoinColumn(name="designer_id")
 	)
 	private List<Designer> designers;
+
+	private String thumbnailUrl;
 	
 	public BookReferred() {
 		
 	}
 
-	public BookReferred(String title) {
+	public BookReferred(String title, String thumbnailUrl) {
 		this.title = title;
+		this.thumbnailUrl = thumbnailUrl;
 	}
 
 	public int getId() {
@@ -84,8 +87,6 @@ public class BookReferred {
 		bookReviews.add(tempReview);
 		
 	}
-	
-	
 
 	public List<Designer> getDesigners() {
 		return designers;
@@ -94,7 +95,14 @@ public class BookReferred {
 	public void setDesigners(List<Designer> designers) {
 		this.designers = designers;
 	}
-	
+
+	public String getThumbnailUrl() {
+		return thumbnailUrl;
+	}
+
+	public void setThumbnailUrl(String thumbnailUrl) {
+		this.thumbnailUrl = thumbnailUrl;
+	}
 
 	@Override
 	public String toString() {
