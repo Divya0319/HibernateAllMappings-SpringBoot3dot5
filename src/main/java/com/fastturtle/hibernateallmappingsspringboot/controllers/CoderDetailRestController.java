@@ -26,8 +26,6 @@ public class CoderDetailRestController {
 
         Coder coder = coderDetailService.findCoderForCoderDetailById(coderDetailId);
 
-        Coder tempCoder = coder;
-
 
         if(coder == null) {
 
@@ -47,11 +45,11 @@ public class CoderDetailRestController {
 
         response.setStatus(HttpStatus.OK.value());
 
-        tempCoder.setCoderDetail(null);
+        coder.setCoderDetail(null);
 
-        tempCoder.setBooksReferred(null);
+        coder.setBooksReferred(null);
 
-        result.add(tempCoder);
+        result.add(coder);
 
         return result;
 

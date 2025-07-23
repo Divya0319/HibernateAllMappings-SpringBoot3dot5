@@ -38,11 +38,9 @@ public class CoderRestController {
 	public List<?> fetchAllCoders(HttpServletResponse response) {
 		
 		List<Coder> coders = coderService.fetchAllCoders();
-		
-		
-		List<Coder> tempCoders = coders;
 
-		if(coders.isEmpty()) {
+
+        if(coders.isEmpty()) {
 			response.setStatus(HttpStatus.NOT_FOUND.value());
 			ResponseObject res = new ResponseObject();
 			res.setMessage("No coders available");
@@ -54,7 +52,7 @@ public class CoderRestController {
 	
 		}
 		
-		for(Coder coder : tempCoders) {
+		for(Coder coder : coders) {
 			
 			coder.setCoderDetail(null);
 			coder.setBooksReferred(null);
@@ -62,7 +60,7 @@ public class CoderRestController {
 		
 		response.setStatus(HttpStatus.OK.value());
 		
-		return tempCoders;
+		return coders;
 	}
 	
 	@GetMapping("/coders/{coderId}")
@@ -71,10 +69,9 @@ public class CoderRestController {
 		ResponseObject res = new ResponseObject();
 
 		
-		Coder coder = coderService.findCoderById(coderId); 
-		Coder tempCoder = coder;
-		
-		if(tempCoder == null) {
+		Coder coder = coderService.findCoderById(coderId);
+
+        if(coder == null) {
 			
 			List<ResponseObject> result = new ArrayList<>();
 			
@@ -90,11 +87,11 @@ public class CoderRestController {
 		
 		response.setStatus(HttpStatus.OK.value());
 		
-		tempCoder.setCoderDetail(null);
+		coder.setCoderDetail(null);
 		
-		tempCoder.setBooksReferred(null);
+		coder.setBooksReferred(null);
 		
-		result.add(tempCoder);
+		result.add(coder);
 		
 		return result;
 		
@@ -106,10 +103,8 @@ public class CoderRestController {
 		
 		
 		CoderDetail coderDetail = coderService.fetchCoderDetailForCoder(coderId);
-		
-		CoderDetail tempDetail = coderDetail;
-		
-		if(coderDetail == null) {
+
+        if(coderDetail == null) {
 			
 			List<ResponseObject> result = new ArrayList<>();
 			
@@ -126,9 +121,9 @@ public class CoderRestController {
 		
 		response.setStatus(HttpStatus.OK.value());
 		
-		tempDetail.setCoder(null);
+		coderDetail.setCoder(null);
 		
-		result.add(tempDetail);
+		result.add(coderDetail);
 		
 		return result;
 	}
@@ -139,10 +134,8 @@ public class CoderRestController {
 		ResponseObject resObj = new ResponseObject();
 		
 		List<BookReferred> booksReferred = coderService.findBooksReferredByCoder(coderId);
-		
-		List<BookReferred> tempBooks = booksReferred;
-		
-		if(tempBooks.size() == 0) {
+
+        if(booksReferred.isEmpty()) {
 			
 			List<ResponseObject> res = new ArrayList<>();
 			
@@ -153,7 +146,7 @@ public class CoderRestController {
 			return res;
 		}
 		
-		for(BookReferred tempBook : tempBooks) {
+		for(BookReferred tempBook : booksReferred) {
 			
 			tempBook.setCoder(null);
 			tempBook.setDesigners(null);
@@ -161,7 +154,7 @@ public class CoderRestController {
 		
 		response.setStatus(HttpStatus.OK.value());
 		
-		return tempBooks;
+		return booksReferred;
 		
 	}
 	

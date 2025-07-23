@@ -24,11 +24,9 @@ public class BooksReferredRestController {
 
         List<BookReferred> allBooks = booksReferredService.findAllBooks();
 
-        List<BookReferred> tempBooks = allBooks;
+        if(!allBooks.isEmpty()) {
 
-        if(allBooks.size() != 0) {
-
-            for(BookReferred tempBook : tempBooks) {
+            for(BookReferred tempBook : allBooks) {
 
                 tempBook.setCoder(null);
                 tempBook.setDesigners(null);
@@ -36,7 +34,7 @@ public class BooksReferredRestController {
         }
 
 
-        return tempBooks;
+        return allBooks;
     }
 
     @GetMapping("/booksReferred/coders")
@@ -47,8 +45,7 @@ public class BooksReferredRestController {
         Coder coder = booksReferredService.findCoderOfBookById(bookId);
 
 
-        Coder tempCoder = coder;
-        if(tempCoder == null) {
+        if(coder == null) {
 
             List<ResponseObject> res = new ArrayList<>();
 
@@ -61,10 +58,10 @@ public class BooksReferredRestController {
 
         List<Coder> coders = new ArrayList<>();
 
-        tempCoder.setBooksReferred(null);
-        tempCoder.setCoderDetail(null);
+        coder.setBooksReferred(null);
+        coder.setCoderDetail(null);
 
-        coders.add(tempCoder);
+        coders.add(coder);
 
         response.setStatus(HttpStatus.OK.value());
 
@@ -81,7 +78,7 @@ public class BooksReferredRestController {
         List<BookReview> bookReviews = booksReferredService.findReviewsForBook(bookId);
 
 
-        if(bookReviews.size() == 0) {
+        if(bookReviews.isEmpty()) {
 
             List<ResponseObject> resObj = new ArrayList<>();
 
@@ -108,10 +105,8 @@ public class BooksReferredRestController {
 
         List<Designer> designers = booksReferredService.findAllDesignersForBook(bId);
 
-        List<Designer> tempDesigners = designers;
 
-
-        if(tempDesigners.size() == 0) {
+        if(designers.isEmpty()) {
 
             List<ResponseObject> resObj = new ArrayList<>();
 
@@ -125,7 +120,7 @@ public class BooksReferredRestController {
 
         }
 
-        for(Designer tempDesigner : tempDesigners) {
+        for(Designer tempDesigner : designers) {
 
             tempDesigner.setBooksReferred(null);
 
@@ -133,7 +128,7 @@ public class BooksReferredRestController {
 
         response.setStatus(HttpStatus.OK.value());
 
-        return tempDesigners;
+        return designers;
 
     }
 

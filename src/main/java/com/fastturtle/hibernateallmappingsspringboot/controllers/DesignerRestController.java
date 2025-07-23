@@ -26,9 +26,7 @@ public class DesignerRestController {
 
         List<Designer> designers = designerService.fetchAllDesigners();
 
-        List<Designer> tempDesigners = designers;
-
-        if(designers.size() == 0) {
+        if(designers.isEmpty()) {
             response.setStatus(HttpStatus.NOT_FOUND.value());
             ResponseObject res = new ResponseObject();
             res.setMessage("No designers available");
@@ -40,14 +38,14 @@ public class DesignerRestController {
 
         }
 
-        for(Designer designer : tempDesigners) {
+        for(Designer designer : designers) {
 
             designer.setBooksReferred(null);
         }
 
         response.setStatus(HttpStatus.OK.value());
 
-        return tempDesigners;
+        return designers;
     }
 
     @GetMapping("/designers/{dId}/booksReferred")
@@ -58,9 +56,7 @@ public class DesignerRestController {
 
         List<BookReferred> booksReferred = designerService.findAllBooksForDesigner(dId);
 
-        List<BookReferred> tempBooks = booksReferred;
-
-        if(tempBooks.size() == 0) {
+        if(booksReferred.isEmpty()) {
 
             List<ResponseObject> resObj = new ArrayList<>();
 
@@ -74,7 +70,7 @@ public class DesignerRestController {
 
         }
 
-        for(BookReferred tempBook : tempBooks) {
+        for(BookReferred tempBook : booksReferred) {
 
             tempBook.setCoder(null);
             tempBook.setDesigners(null);
@@ -82,7 +78,7 @@ public class DesignerRestController {
 
         response.setStatus(HttpStatus.OK.value());
 
-        return tempBooks;
+        return booksReferred;
 
     }
 
