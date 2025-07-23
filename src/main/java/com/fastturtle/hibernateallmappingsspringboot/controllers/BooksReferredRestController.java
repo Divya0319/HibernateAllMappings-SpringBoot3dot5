@@ -15,6 +15,10 @@ public class BooksReferredRestController {
 
     private final BooksReferredService booksReferredService;
 
+    public BooksReferredRestController(BooksReferredService booksReferredService) {
+        this.booksReferredService = booksReferredService;
+    }
+
     @GetMapping("/booksReferred")
     public List<BookReferred> findAllBooks() {
 

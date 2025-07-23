@@ -3,6 +3,7 @@ package com.fastturtle.hibernateallmappingsspringboot.controllers;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fastturtle.hibernateallmappingsspringboot.service.BooksReferredService;
 import jakarta.servlet.http.HttpServletResponse;
 
 import org.springframework.http.HttpStatus;
@@ -26,10 +27,12 @@ import com.fastturtle.hibernateallmappingsspringboot.service.CoderService;
 public class CoderRestController {
 	
 	private final CoderService coderService;
+	private final BooksReferredService booksReferredService;
 
-	public CoderRestController(CoderService coderService) {
+	public CoderRestController(CoderService coderService, BooksReferredService booksReferredService) {
 		this.coderService = coderService;
-	}
+        this.booksReferredService = booksReferredService;
+    }
 
 	@GetMapping("/coders")
 	public List<?> fetchAllCoders(HttpServletResponse response) {
@@ -214,7 +217,7 @@ public class CoderRestController {
 		}
 
 		
-		List<BookReferred> books = coderService.findAllBooks();
+		List<BookReferred> books = booksReferredService.findAllBooks();
 		
 		
 		for(BookReferred tempBook : books) {

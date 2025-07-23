@@ -87,11 +87,9 @@ public class DesignerRestController {
     }
 
     @PostMapping("/designers")
-    public Designer addDesigner(@RequestBody Designer designer, HttpServletResponse response) {
+    public Designer addDesigner(@RequestBody Designer designer) {
 
-        designer.setId(0);
-
-        coderService.addDesigner(designer);
+        designerService.addDesigner(designer);
 
         return designer;
 
