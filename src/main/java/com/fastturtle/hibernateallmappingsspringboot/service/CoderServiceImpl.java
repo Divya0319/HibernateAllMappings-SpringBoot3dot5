@@ -8,7 +8,7 @@ import com.fastturtle.hibernateallmappingsspringboot.repository.CoderDetailRepos
 import com.fastturtle.hibernateallmappingsspringboot.repository.CoderRepository;
 import com.fastturtle.hibernateallmappingsspringboot.repository.DesignerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
+//import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import com.fastturtle.hibernateallmappingsspringboot.entity.BookReferred;
@@ -69,7 +69,7 @@ public class CoderServiceImpl implements CoderService {
 	}
 	
 	@Override
-	@PreAuthorize("hasAuthority('SCOPE_access.coders')")
+//	@PreAuthorize("hasAuthority('SCOPE_access.coders')")
 	public List<Coder> fetchAllCoders() {
 		return coderRepository.findAll();
 	}
