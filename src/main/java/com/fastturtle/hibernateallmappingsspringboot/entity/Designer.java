@@ -20,6 +20,8 @@ public class Designer implements Reviewer {
 	private String lastName;
 	
 	private String email;
+
+	private String password;
 	
 	@ManyToMany(cascade= {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
 	@JoinTable(name="bookreferred_designer",
@@ -80,6 +82,14 @@ public class Designer implements Reviewer {
 		booksReferred.add(bookReferred);
 		
 
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 	@Override

@@ -5,6 +5,7 @@ import com.fastturtle.hibernateallmappingsspringboot.repository.DesignerReposito
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
@@ -14,6 +15,9 @@ public class SampleDataInitializerTests {
 
     @Autowired
     private DesignerRepository designerRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Test
     public void testInsertIntoEntitiesOneByOne() {
@@ -34,6 +38,10 @@ public class SampleDataInitializerTests {
         String[] emails = {"john.doe@example.com", "alice.smith@example.com", "bob.johnson@example.com", "emily.brown@example.com",
                 "michael.davis@example.com"};
 
+        String[] coderPasswords = {
+                "doe@123", "smith@123", "johnson@123", "brown@123", "davis@123"
+        };
+
         // Sample data for Designer
         String[] firstNamesDes = {"Sarah", "David", "Emma", "Ryan", "Olivia"};
         String[] lastNamesDes = {"Wilson", "Jones", "Taylor", "Clark", "Anderson"};
@@ -43,6 +51,10 @@ public class SampleDataInitializerTests {
                 "emma.taylor@example.com",
                 "ryan.clark@example.com",
                 "olivia.anderson@example.com"
+        };
+
+        String[] designerPasswords = {
+                "wilson@123", "jones@123", "taylor@123", "clark@123", "anderson@123"
         };
 
         // Sample data for Book
@@ -87,6 +99,7 @@ public class SampleDataInitializerTests {
 
             // Create and save Coder
             Coder coder = new Coder(firstNames[i], lastNames[i], ages[i], emails[i]);
+            coder.setPassword(passwordEncoder.encode(coderPasswords[i]));
             coder.setCoderDetail(coderDetail);
 
             // Create and save Designer
@@ -94,6 +107,7 @@ public class SampleDataInitializerTests {
             designer.setFirstName(firstNamesDes[i]);
             designer.setLastName(lastNamesDes[i]);
             designer.setEmail(emailsDes[i]);
+            designer.setPassword(passwordEncoder.encode(designerPasswords[i]));
 
             // Create BookReview
             BookReview bookReview = new BookReview(comments[i], createdAts[i]);
