@@ -24,6 +24,12 @@ public class BooksReferredService {
         return bookReferredRepository.findAll();
     }
 
+    public BookReferred findBookById(int id) {
+        Optional<BookReferred> bookReferredOptional = bookReferredRepository.findById(id);
+
+        return bookReferredOptional.orElse(null);
+    }
+
     public Coder findCoderOfBookById(int bookId) {
         return bookReferredRepository.findCoderOfBookById(bookId);
     }
