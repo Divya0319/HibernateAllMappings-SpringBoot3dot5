@@ -1,12 +1,14 @@
 package com.fastturtle.hibernateallmappingsspringboot.dtos;
 
+import com.fastturtle.hibernateallmappingsspringboot.entity.Reviewer;
+
 public class ReviewDTO {
 
     private int id;
 
     private String comment;
 
-    private String reviewer;
+    private Reviewer reviewer;
 
     public int getId() {
         return id;
@@ -24,11 +26,11 @@ public class ReviewDTO {
         this.comment = comment;
     }
 
-    public String getReviewer() {
+    public Reviewer getReviewer() {
         return reviewer;
     }
 
-    public void setReviewer(String reviewer) {
+    public void setReviewer(Reviewer reviewer) {
         this.reviewer = reviewer;
     }
 }
