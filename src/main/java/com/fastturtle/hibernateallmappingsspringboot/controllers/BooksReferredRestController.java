@@ -1,11 +1,15 @@
 package com.fastturtle.hibernateallmappingsspringboot.controllers;
 
+import com.fastturtle.hibernateallmappingsspringboot.dtos.CreateBookReviewRequestDTO;
 import com.fastturtle.hibernateallmappingsspringboot.entity.*;
 import com.fastturtle.hibernateallmappingsspringboot.service.BooksReferredService;
+import com.fastturtle.hibernateallmappingsspringboot.service.CoderServiceImpl;
+import com.fastturtle.hibernateallmappingsspringboot.service.DesignerService;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,9 +18,13 @@ import java.util.List;
 public class BooksReferredRestController {
 
     private final BooksReferredService booksReferredService;
+    private final CoderServiceImpl coderServiceImpl;
+    private final DesignerService designerService;
 
-    public BooksReferredRestController(BooksReferredService booksReferredService) {
+    public BooksReferredRestController(BooksReferredService booksReferredService, CoderServiceImpl coderServiceImpl, DesignerService designerService) {
         this.booksReferredService = booksReferredService;
+        this.coderServiceImpl = coderServiceImpl;
+        this.designerService = designerService;
     }
 
     @GetMapping("/booksReferred")
@@ -133,11 +141,22 @@ public class BooksReferredRestController {
     }
 
     @PostMapping("/booksReferred/{bookId}/bookReviews")
-    public ResponseObject addBookReview(@RequestBody BookReview bookReview,
+    public ResponseObject addBookReview(@RequestBody CreateBookReviewRequestDTO bookReviewRequestDTO,
                                         @PathVariable int bookId,
                                         HttpServletResponse response) {
 
         ResponseObject resObj = new ResponseObject();
+
+        BookReview bookReview = from(bookReviewRequestDTO);
+
+        Coder coderFound = coderServiceImpl.fetchCoderByEmail(bookReviewRequestDTO.getReviewerEmail());
+
+        if(coderFound != null) {
+            bookReview.setReviewer(coderFound);
+        } else {
+            Designer designerFound = designerService.fetchDesignerByEmail(bookReviewRequestDTO.getReviewerEmail());
+            bookReview.setReviewer(designerFound);
+        }
 
         boolean bookFound = booksReferredService.addBookReview(bookReview, bookId);
 
@@ -178,6 +197,12 @@ public class BooksReferredRestController {
         resObj.setMessage("Book with id : " + bookId + " deleted successfully");
 
         return resObj;
+    }
+
+    private BookReview from(CreateBookReviewRequestDTO bookReviewRequestDTO) {
+        return new BookReview(
+                bookReviewRequestDTO.getComment(),
+                LocalDateTime.now());
     }
 
 

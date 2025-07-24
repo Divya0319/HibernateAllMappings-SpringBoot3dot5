@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 
 public interface CoderRepository extends JpaRepository<Coder, Integer> {
@@ -17,5 +18,7 @@ public interface CoderRepository extends JpaRepository<Coder, Integer> {
 
     @Query("SELECT c.coderDetail FROM Coder c WHERE c.id = :coderId")
     CoderDetail findCoderDetailForCoder(@Param("coderId") int coderId);
+
+    Optional<Coder> findByEmail(String email);
 
 }
