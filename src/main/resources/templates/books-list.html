@@ -20,9 +20,9 @@
                     <!--                    <p class="card-text" th:text="${book.description}">Book description goes here.</p>-->
                 </div>
                 <div class="card-footer bg-transparent border-top-0 p-2">
-                    <!--                    <a th:href="@{'/booksReferred/' + ${book.id} + '/bookReviews'}"-->
-                    <!--                       class="btn btn-primary w-100">View Reviews</a>-->
-                    <p class="btn btn-primary btn-sm w-100 mb-0">View Reviews</p>
+                                        <a th:href="@{'/books/' + ${book.id} + '/reviews'}"
+                                           class="btn btn-primary w-100">View Reviews</a>
+<!--                    <p class="btn btn-primary btn-sm w-100 mb-0">View Reviews</p>-->
                 </div>
             </div>
         </div>
