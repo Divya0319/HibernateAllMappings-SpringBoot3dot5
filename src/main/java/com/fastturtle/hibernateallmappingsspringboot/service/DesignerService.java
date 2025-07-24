@@ -1,6 +1,7 @@
 package com.fastturtle.hibernateallmappingsspringboot.service;
 
 import com.fastturtle.hibernateallmappingsspringboot.entity.BookReferred;
+import com.fastturtle.hibernateallmappingsspringboot.entity.Coder;
 import com.fastturtle.hibernateallmappingsspringboot.entity.Designer;
 import com.fastturtle.hibernateallmappingsspringboot.repository.BookReferredRepository;
 import com.fastturtle.hibernateallmappingsspringboot.repository.DesignerRepository;
@@ -68,5 +69,10 @@ public class DesignerService {
 
         designerRepository.deleteById(dId);
         return true;
+    }
+
+    public Designer fetchDesignerByEmail(String email) {
+        Optional<Designer> designerOptional = designerRepository.findByEmail(email);
+        return designerOptional.orElse(null);
     }
 }

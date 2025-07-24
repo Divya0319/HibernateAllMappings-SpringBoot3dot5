@@ -115,4 +115,9 @@ public class CoderServiceImpl implements CoderService {
 		return coderRepository.findCoderDetailForCoder(coderId);
 	}
 
+	public Coder fetchCoderByEmail(String email) {
+		Optional<Coder> coderOptional = coderRepository.findByEmail(email);
+		return coderOptional.orElse(null);
+	}
+
 }

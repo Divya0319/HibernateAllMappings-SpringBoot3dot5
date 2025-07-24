@@ -7,10 +7,12 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface DesignerRepository extends JpaRepository<Designer, Integer> {
 
     @Query("SELECT d.booksReferred FROM Designer d WHERE d.id = :dId")
     List<BookReferred> findAllBooksForDesigner(@Param("dId") int dId);
 
+    Optional<Designer> findByEmail(String email);
 }
