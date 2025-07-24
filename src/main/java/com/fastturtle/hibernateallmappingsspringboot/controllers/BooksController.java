@@ -64,7 +64,7 @@ public class BooksController {
         ReviewDTO reviewDTO = new ReviewDTO();
         reviewDTO.setId(bookReview.getId());
         reviewDTO.setComment(bookReview.getComment());
-        reviewDTO.setReviewer("");
+        reviewDTO.setReviewer(bookReview.getReviewer());
         return reviewDTO;
     }
 }

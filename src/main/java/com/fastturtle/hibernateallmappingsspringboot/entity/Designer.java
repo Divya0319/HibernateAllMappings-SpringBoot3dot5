@@ -9,7 +9,7 @@ import jakarta.persistence.*;
 
 @Entity
 @JsonInclude(Include.NON_NULL)
-public class Designer {
+public class Designer implements Reviewer {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -80,6 +80,11 @@ public class Designer {
 		booksReferred.add(bookReferred);
 		
 
+	}
+
+	@Override
+	public String getFullName() {
+		return firstName + " " + lastName;
 	}
 
 	@Override

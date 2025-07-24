@@ -87,6 +87,13 @@ public class SampleDataInitializerTests {
             // Create BookReview
             BookReview bookReview = new BookReview(comments[i]);
 
+            // Alternate reviewer: first 2 as Coder, rest as Designer
+            if (i < 2) {
+                bookReview.setReviewer(coder); // sets coder, clears designer
+            } else {
+                bookReview.setReviewer(designer); // sets designer, clears coder
+            }
+
             // Add BookReview and Coder to BookReferred(BookReview will be saved because of cascade)
             BookReferred bookReferred = new BookReferred(bookTitles[i], thumbnailUrls[i]);
             bookReferred.addBookReview(bookReview);
