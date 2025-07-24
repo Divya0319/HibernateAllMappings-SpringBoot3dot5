@@ -22,8 +22,7 @@
             <div class="list-group">
                 <div th:each="review : ${reviews}" class="list-group-item list-group-item-action">
                     <p th:text="${review.comment}" class="mb-1"></p>
-<!--                    <small th:text="'Posted by ' + ${review.reviewer} + ' on ' + ${#dates.format(review.createdAt, 'dd MMM yyyy HH:mm')}"></small>-->
-                    <small th:text="'Posted by ' + ${review.reviewer.fullName}"></small>
+                    <small th:text="'Posted by ' + ${review.reviewer.fullName} + ' on ' + ${review.createdAtFormatted}"></small>
                 </div>
             </div>
         </div>

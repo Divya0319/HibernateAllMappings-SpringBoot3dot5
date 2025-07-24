@@ -3,6 +3,8 @@ package com.fastturtle.hibernateallmappingsspringboot.entity;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 
 @Entity
 @Table(name="book_review")
@@ -24,14 +26,18 @@ public class BookReview {
 	private Designer designer;
 
 	@Column(name = "created_at")
-	private final LocalDateTime createdAt = LocalDateTime.now();
+	private LocalDateTime createdAt;
+
+	@Transient
+	private ZonedDateTime createdAtWithZone;
 	
 	public BookReview() {
 		
 	}
 	
-	public BookReview(String comment) {
+	public BookReview(String comment, LocalDateTime createdAt) {
 		this.comment = comment;
+		this.createdAt = createdAt;
 	}
 
 	public int getId() {
@@ -68,6 +74,19 @@ public class BookReview {
 			this.coder = null;
 		} else {
 			throw new IllegalArgumentException("Reviewer must be either a Coder or Designer");
+		}
+	}
+
+	public ZonedDateTime getCreatedAtWithZone() {
+		return createdAtWithZone;
+	}
+
+	@PostLoad
+	private void initTimezoneFields() {
+		if (createdAt != null) {
+			this.createdAtWithZone = createdAt
+					.atZone(ZoneId.of("UTC"))
+					.withZoneSameInstant(ZoneId.of("Asia/Kolkata"));
 		}
 	}
 

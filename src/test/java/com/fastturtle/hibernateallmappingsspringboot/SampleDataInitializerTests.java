@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+
 @SpringBootTest
 public class SampleDataInitializerTests {
 
@@ -69,6 +71,15 @@ public class SampleDataInitializerTests {
                 "Not what I expected, but pleasantly surprised."
         };
 
+        LocalDateTime[] createdAts = {
+                LocalDateTime.of(2025, 5, 24, 22, 10),
+                LocalDateTime.of(2025, 2, 10, 9, 3),
+                LocalDateTime.of(2024, 3, 19, 8, 10),
+                LocalDateTime.of(2023, 5, 20, 7, 28),
+                LocalDateTime.of(2025, 5, 18, 16, 5)
+        };
+
+
 
         for (int i = 0; i < 5; i++) {
             // Create and save CoderDetail
@@ -85,7 +96,7 @@ public class SampleDataInitializerTests {
             designer.setEmail(emailsDes[i]);
 
             // Create BookReview
-            BookReview bookReview = new BookReview(comments[i]);
+            BookReview bookReview = new BookReview(comments[i], createdAts[i]);
 
             // Alternate reviewer: first 2 as Coder, rest as Designer
             if (i < 2) {

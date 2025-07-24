@@ -10,6 +10,8 @@ public class ReviewDTO {
 
     private Reviewer reviewer;
 
+    private String createdAtFormatted;
+
     public int getId() {
         return id;
     }
@@ -32,5 +34,13 @@ public class ReviewDTO {
 
     public void setReviewer(Reviewer reviewer) {
         this.reviewer = reviewer;
+    }
+
+    public String getCreatedAtFormatted() {
+        return createdAtFormatted;
+    }
+
+    public void setCreatedAtFormatted(String createdAtFormatted) {
+        this.createdAtFormatted = createdAtFormatted;
     }
 }

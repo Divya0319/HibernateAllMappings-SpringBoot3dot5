@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -65,6 +68,15 @@ public class BooksController {
         reviewDTO.setId(bookReview.getId());
         reviewDTO.setComment(bookReview.getComment());
         reviewDTO.setReviewer(bookReview.getReviewer());
+
+        ZonedDateTime indiaZoned = bookReview.getCreatedAt()
+                .atZone(ZoneId.of("UTC"))
+                .withZoneSameInstant(ZoneId.of("Asia/Kolkata"));
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMMM yyyy hh:mm a");
+        String formatted = indiaZoned.format(formatter);
+
+        reviewDTO.setCreatedAtFormatted(formatted);
         return reviewDTO;
     }
 }
