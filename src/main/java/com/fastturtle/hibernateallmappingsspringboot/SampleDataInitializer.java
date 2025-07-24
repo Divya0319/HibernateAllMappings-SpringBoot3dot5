@@ -4,6 +4,7 @@ import com.fastturtle.hibernateallmappingsspringboot.entity.*;
 import com.fastturtle.hibernateallmappingsspringboot.repository.*;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
@@ -15,18 +16,20 @@ public class SampleDataInitializer {
 //	private final CoderDetailRepository coderDetailRepository;
 //	private final BookReferredRepository bookReferredRepository;
 	private final DesignerRepository designerRepository;
+    private final PasswordEncoder passwordEncoder;
 	
 //	@Autowired
 	public SampleDataInitializer(
 //            CoderRepository coderRepository, CoderDetailRepository coderDetailRepository,
 //            BookReferredRepository bookReferredRepository, BookReviewRepository bookReviewRepository,
-            DesignerRepository designerRepository
+            DesignerRepository designerRepository, PasswordEncoder passwordEncoder
     ) {
 //		this.coderRepository = coderRepository;
 //		this.coderDetailRepository = coderDetailRepository;
 //		this.bookReferredRepository = bookReferredRepository;
 		this.designerRepository = designerRepository;
-	}
+        this.passwordEncoder = passwordEncoder;
+    }
 	
 //	@PostConstruct
 	public void init() {
@@ -51,6 +54,10 @@ public class SampleDataInitializer {
         int[] ages = {30, 25, 28, 35, 40};
         String[] emails = {"john.doe@example.com", "alice.smith@example.com", "bob.johnson@example.com", "emily.brown@example.com",
         		"michael.davis@example.com"};
+
+        String[] coderPasswords = {
+                "doe@123", "smith@123", "johnson@123", "brown@123", "davis@123"
+        };
         
         // Sample data for Designer
         String[] firstNamesDes = {"Sarah", "David", "Emma", "Ryan", "Olivia"};
@@ -62,6 +69,10 @@ public class SampleDataInitializer {
         	    "ryan.clark@example.com",
         	    "olivia.anderson@example.com"
         	};
+
+        String[] designerPasswords = {
+                "wilson@123", "jones@123", "taylor@123", "clark@123", "anderson@123"
+        };
         
         // Sample data for Book
         String[] bookTitles = {
@@ -104,6 +115,7 @@ public class SampleDataInitializer {
 
             // Create and save Coder
             Coder coder = new Coder(firstNames[i], lastNames[i], ages[i], emails[i]);
+            coder.setPassword(passwordEncoder.encode(coderPasswords[i]));
             coder.setCoderDetail(coderDetail);
             
             // Create and save Designer
@@ -111,6 +123,7 @@ public class SampleDataInitializer {
             designer.setFirstName(firstNamesDes[i]);
             designer.setLastName(lastNamesDes[i]);
             designer.setEmail(emailsDes[i]);
+            designer.setPassword(passwordEncoder.encode(designerPasswords[i]));
             
             // Create BookReview 
             BookReview bookReview = new BookReview(comments[i], createdAts[i]);

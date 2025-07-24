@@ -22,6 +22,8 @@ public class Coder implements Reviewer {
 	private int age;
 	
 	private String email;
+
+	private String password;
 	
 	@OneToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name="coder_detail_id")
@@ -106,6 +108,14 @@ public class Coder implements Reviewer {
 		
 		bookReferred.setCoder(this);
 
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 	@Override
