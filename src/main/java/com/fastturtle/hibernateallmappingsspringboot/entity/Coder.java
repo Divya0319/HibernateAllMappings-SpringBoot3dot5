@@ -110,6 +110,7 @@ public class Coder implements Reviewer {
 
 	}
 
+	@Override
 	public String getPassword() {
 		return password;
 	}
