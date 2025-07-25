@@ -4,4 +4,5 @@ public interface Reviewer {
 
     String getFullName();
     String getEmail();
+    String getPassword();
 }

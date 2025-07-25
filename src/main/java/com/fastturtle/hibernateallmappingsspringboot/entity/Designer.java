@@ -84,6 +84,7 @@ public class Designer implements Reviewer {
 
 	}
 
+	@Override
 	public String getPassword() {
 		return password;
 	}
