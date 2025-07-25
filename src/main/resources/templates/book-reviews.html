@@ -6,6 +6,40 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <!-- Bootstrap CSS CDN -->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+        <style>
+            .user-menu {
+                position: relative;
+                display: inline-block;
+            }
+
+            .user-menu-content {
+                display: none;
+                position: absolute;
+                right: 0;
+                background-color: #fff;
+                min-width: 160px;
+                border: 1px solid #ddd;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+                z-index: 1000;
+            }
+
+            .user-menu-content.show {
+                display: block;
+            }
+
+            .user-menu-content button {
+                width: 100%;
+                padding: 8px 12px;
+                border: none;
+                background: none;
+                text-align: left;
+            }
+
+            .user-menu-content button:hover {
+                background-color: #f8f9fa;
+            }
+        </style>
     </head>
     <body class="bg-light">
 
@@ -18,13 +52,11 @@
                        data-bs-toggle="dropdown" aria-expanded="false">
                         Hello, <span th:text="${loggedInUserName}"></span>
                     </a>
-                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-                        <li>
-                            <form th:action="@{/logout}" method="post" class="dropdown-item p-0">
-                                <button class="btn btn-link dropdown-item text-danger" type="submit">Logout</button>
-                            </form>
-                        </li>
-                    </ul>
+                    <div class="user-menu-content" id="userMenu">
+                        <form th:action="@{/logout}" method="post">
+                            <button type="submit" class="text-danger">Logout</button>
+                        </form>
+                    </div>
                 </div>
 
                 <div th:if="${loggedInUserName == null}">
@@ -124,6 +156,21 @@
                         const currentUrl = window.location.pathname + window.location.search;
                         window.location.href = `/login?returnTo=${encodeURIComponent(currentUrl)}`;
                     });
+                }
+            });
+
+            const toggleBtn = document.getElementById('userToggleBtn');
+            const userMenu = document.getElementById('userMenu');
+
+            toggleBtn.addEventListener('click', function (e) {
+                e.stopPropagation();
+                userMenu.classList.toggle('show');
+            });
+
+            // Hide dropdown when clicking outside
+            window.addEventListener('click', function () {
+                if (userMenu.classList.contains('show')) {
+                    userMenu.classList.remove('show');
                 }
             });
 
