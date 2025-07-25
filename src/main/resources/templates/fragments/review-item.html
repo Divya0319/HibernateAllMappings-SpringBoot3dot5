@@ -1,0 +1,5 @@
+<!-- fragments/review :: review -->
+<div th:fragment="review" class="list-group-item list-group-item-action fade-in">
+    <p th:text="${review.comment}" class="mb-1"></p>
+    <small th:text="'Posted by ' + ${review.reviewer.fullName} + ' on ' + ${review.createdAtFormatted}"></small>
+</div>

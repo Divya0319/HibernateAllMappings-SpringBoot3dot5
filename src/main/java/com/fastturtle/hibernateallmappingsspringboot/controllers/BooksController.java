@@ -78,16 +78,17 @@ public class BooksController {
 
     @PostMapping("/books/{bookId}/reviews")
     public String addBookReview(@RequestParam("comment") String comment,
-                                        @PathVariable int bookId,
-                                        Principal principal,
-                                        RedirectAttributes redirectAttributes) {
+                                @PathVariable int bookId,
+                                Principal principal,
+                                Model model,
+                                HttpServletResponse response) {
 
         if (principal == null) {
-            return "redirect:/books/" + bookId + "?authError=true";
+            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+            return null;
         }
 
-        BookReview review = new BookReview();
-        review.setComment(comment);
+        BookReview review = new BookReview(comment, LocalDateTime.now());
 
         String email = principal.getName();
 
@@ -102,12 +103,15 @@ public class BooksController {
         boolean bookFound = booksReferredService.addBookReview(review, bookId);
 
         if (!bookFound) {
-            redirectAttributes.addFlashAttribute("error", "Book not found");
-            return "redirect:/books/" + bookId;
+            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+            return null;
         }
 
-        redirectAttributes.addFlashAttribute("message", "Review added successfully!");
-        return "redirect:/books/" + bookId;
+        ReviewDTO reviewDTO = from(review);
+
+        // Assuming you have a fragment that renders a single review
+        model.addAttribute("review", reviewDTO);
+        return "fragments/review-item :: review"; // return partial HTML
     }
 
     private BookDTO from(BookReferred bookReferred) {

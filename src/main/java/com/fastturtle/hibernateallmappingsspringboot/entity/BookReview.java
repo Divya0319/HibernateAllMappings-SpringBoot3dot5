@@ -77,19 +77,6 @@ public class BookReview {
 		}
 	}
 
-	public ZonedDateTime getCreatedAtWithZone() {
-		return createdAtWithZone;
-	}
-
-	@PostLoad
-	private void initTimezoneFields() {
-		if (createdAt != null) {
-			this.createdAtWithZone = createdAt
-					.atZone(ZoneId.of("UTC"))
-					.withZoneSameInstant(ZoneId.of("Asia/Kolkata"));
-		}
-	}
-
 	@Override
 	public String toString() {
 		return "\nBookReview \n[id=" + id + ", comment=" + comment + "]\n";

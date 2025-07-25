@@ -2,6 +2,9 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
     <head>
         <meta charset="UTF-8">
+        <meta name="_csrf" th:content="${_csrf.token}" />
+        <meta name="_csrf_header" th:content="${_csrf.headerName}" />
+
         <title>Book Reviews</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <!-- Bootstrap CSS CDN -->
@@ -39,6 +42,22 @@
             .user-menu-content button:hover {
                 background-color: #f8f9fa;
             }
+
+            @keyframes fadeIn {
+                from {
+                    opacity: 0;
+                    transform: translateY(-5px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+
+            .fade-in {
+                animation: fadeIn 0.6s ease-in-out;
+            }
+
         </style>
     </head>
     <body class="bg-light">
@@ -115,26 +134,49 @@
     <!-- JavaScript -->
         <script>
 
-            function submitReview(bookId) {
+            document.addEventListener("DOMContentLoaded", () => {
                 const form = document.getElementById("reviewForm");
-                const commentField = document.getElementById("comment");
+                const alertDiv = document.getElementById("youMustLoginDiv");
+                const userFullNameInput = form.querySelector("input[name='loggedInUserFullName']");
+
+                const token = document.querySelector('meta[name="_csrf"]').getAttribute('content');
+                const header = document.querySelector('meta[name="_csrf_header"]').getAttribute('content');
+
+                if (!form) return;
+
 
                 form.addEventListener("submit", function (e) {
                     e.preventDefault();
 
+                    const userFullName = userFullNameInput.value.trim();
+
+                    // User not logged in
+                    if (!userFullName) {
+                        e.preventDefault(); // Stop form submission
+                        alertDiv.style.display = "block"; // Show alert
+
+                        // Hide after 5 seconds
+                        setTimeout(() => {
+                            alertDiv.style.display = "none";
+                        }, 5000);
+
+                        return;
+                    }
+
                     const bookId = form.getAttribute("data-bookId");
                     const formData = new FormData(form);
 
-                    fetch("/booksReferred/${bookId}/bookReviews", {
+                    fetch(`/books/${bookId}/reviews`, {
                         method: "POST",
-                        body: formData,
                         headers: {
-                            'X-Requested-With': 'XMLHttpRequest'
-                        }
+                            'X-Requested-With': 'XMLHttpRequest',
+                            [header]: token
+                        },
+                        body: formData
                     })
                         .then(response => {
-                            if (response.status === 403) {
-                                document.getElementById("loginCard").style.display = "block";
+                            if (response.redirected) {
+                                window.location.href = response.url;
                                 return;
                             }
                             return response.text();
@@ -144,14 +186,17 @@
                                 const reviewList = document.getElementById("reviewList");
                                 const tempDiv = document.createElement("div");
                                 tempDiv.innerHTML = html.trim();
-                                reviewList.prepend(tempDiv.firstChild);
+                                const newReview = tempDiv.firstChild;
+
+                                newReview.classList.add("fade-in");
+                                reviewList.querySelector(".list-group").prepend(newReview);
                                 form.reset();
-                                document.getElementById("loginCard").style.display = "none";
                             }
                         })
                         .catch(err => alert("Error: " + err));
                 });
-            }
+            });
+
 
             document.addEventListener("DOMContentLoaded", function () {
                 const loginBtn = document.getElementById("loginBtn");
@@ -167,17 +212,22 @@
                 const toggleBtn = document.getElementById('userToggleBtn');
                 const userMenu = document.getElementById('userMenu');
 
-                toggleBtn.addEventListener('click', function (e) {
-                    e.stopPropagation();
-                    userMenu.classList.toggle('show');
-                });
+                if(toggleBtn) {
+                    toggleBtn.addEventListener('click', function (e) {
+                        e.stopPropagation();
+                        userMenu.classList.toggle('show');
+                    });
+                }
 
                 // Hide dropdown when clicking outside
-                window.addEventListener('click', function () {
-                    if (userMenu.classList.contains('show')) {
-                        userMenu.classList.remove('show');
-                    }
-                });
+                if(userMenu) {
+                    window.addEventListener('click', function () {
+                        if (userMenu.classList.contains('show')) {
+                            userMenu.classList.remove('show');
+                        }
+                    });
+                }
+
             });
 
 
