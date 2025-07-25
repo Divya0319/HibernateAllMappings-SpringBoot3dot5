@@ -46,12 +46,10 @@
         <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom mb-4 px-3">
             <a class="navbar-brand" href="#">📚 BookZone</a>
             <div class="ms-auto">
-                <!-- Shown only if authenticated -->
-                <div th:if="${loggedInUserName != null}" class="dropdown">
-                    <a class="nav-link dropdown-toggle fw-semibold" href="#" id="userDropdown" role="button"
-                       data-bs-toggle="dropdown" aria-expanded="false">
-                        Hello, <span th:text="${loggedInUserName}"></span>
-                    </a>
+                <div class="user-menu" th:if="${loggedInUserName != null}">
+                    <button class="btn btn-outline-secondary" id="userToggleBtn">
+                        Hello, <span th:text="${loggedInUserName}">User</span> ▼
+                    </button>
                     <div class="user-menu-content" id="userMenu">
                         <form th:action="@{/logout}" method="post">
                             <button type="submit" class="text-danger">Logout</button>
@@ -62,12 +60,14 @@
                 <div th:if="${loggedInUserName == null}">
                     <a id="loginBtn" class="btn btn-outline-primary me-2"
                        th:href="@{/login}">Login</a>
-        <!--            <a class="btn btn-primary" href="/register">Sign Up</a>&ndash;&gt;-->
+                    <!--            <a class="btn btn-primary" href="/register">Sign Up</a>&ndash;&gt;-->
                 </div>
 
 
             </div>
         </nav>
+
+
 
         <div class="container mt-5">
             <h2 th:text="${bookTitle}"></h2>
@@ -101,7 +101,12 @@
                         </div>
 
                         <!-- Submit -->
+
+                        <input type="hidden" name="loggedInUserFullName" th:value="${loggedInUserName}" >
                         <button type="submit" class="btn btn-primary">Post Review</button>
+                        <div id="youMustLoginDiv" class="alert alert-danger mt-3" style="display: none">
+                            You must log in to post a comment.
+                        </div>
                     </form>
                 </div>
             </div>
@@ -158,21 +163,46 @@
                     });
                 }
             });
+            document.addEventListener("DOMContentLoaded", function () {
+                const toggleBtn = document.getElementById('userToggleBtn');
+                const userMenu = document.getElementById('userMenu');
 
-            const toggleBtn = document.getElementById('userToggleBtn');
-            const userMenu = document.getElementById('userMenu');
+                toggleBtn.addEventListener('click', function (e) {
+                    e.stopPropagation();
+                    userMenu.classList.toggle('show');
+                });
 
-            toggleBtn.addEventListener('click', function (e) {
-                e.stopPropagation();
-                userMenu.classList.toggle('show');
+                // Hide dropdown when clicking outside
+                window.addEventListener('click', function () {
+                    if (userMenu.classList.contains('show')) {
+                        userMenu.classList.remove('show');
+                    }
+                });
             });
 
-            // Hide dropdown when clicking outside
-            window.addEventListener('click', function () {
-                if (userMenu.classList.contains('show')) {
-                    userMenu.classList.remove('show');
-                }
+
+            document.addEventListener("DOMContentLoaded", function () {
+                const form = document.getElementById("reviewForm");
+                const alertDiv = document.getElementById("youMustLoginDiv");
+                const userFullNameInput = form.querySelector("input[name='loggedInUserFullName']");
+
+                form.addEventListener("submit", function (e) {
+                    const userFullName = userFullNameInput.value.trim();
+
+                    if (!userFullName) {
+                        e.preventDefault(); // Stop form submission
+                        alertDiv.style.display = "block"; // Show alert
+
+                        // Hide after 5 seconds
+                        setTimeout(() => {
+                            alertDiv.style.display = "none";
+                        }, 5000);
+                    } else {
+                        alertDiv.style.display = "none"; // Hide if user is logged in
+                    }
+                });
             });
+
 
         </script>
     </body>
