@@ -1,5 +1,6 @@
 package com.fastturtle.hibernateallmappingsspringboot.configs;
 
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -34,6 +35,14 @@ public class SecurityConfig {
                 ).logout(logout -> logout
                                 .logoutUrl("/logout").permitAll()
                                 .logoutSuccessUrl("/login?logout=true")
+                ).exceptionHandling(e -> e
+                        .authenticationEntryPoint((req, res, authEx) -> {
+                            if ("XMLHttpRequest".equals(req.getHeader("X-Requested-With"))) {
+                                res.sendError(HttpServletResponse.SC_FORBIDDEN);
+                            } else {
+                                res.sendRedirect("/login");
+                            }
+                        })
                 );
 
         return http.build();
