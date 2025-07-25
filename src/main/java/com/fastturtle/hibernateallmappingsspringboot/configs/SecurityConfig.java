@@ -43,7 +43,9 @@ public class SecurityConfig {
                         .permitAll()
                 ).logout(logout -> logout
                                 .logoutUrl("/logout").permitAll()
-                                .logoutSuccessUrl("/login?logout=true")
+                                .logoutSuccessHandler((request, response, authentication) -> {
+                                    response.sendRedirect(request.getHeader("Referer"));
+                                })
                 );
 //                .exceptionHandling(e -> e
 //                        .authenticationEntryPoint((req, res, authEx) -> {
