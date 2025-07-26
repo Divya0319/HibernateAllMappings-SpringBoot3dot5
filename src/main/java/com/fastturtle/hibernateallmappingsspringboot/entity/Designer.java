@@ -30,6 +30,8 @@ public class Designer implements Reviewer {
 	)
 	private List<BookReferred> booksReferred;
 
+	private String profilePicUrl;
+
 	public int getId() {
 		return id;
 	}
@@ -96,6 +98,14 @@ public class Designer implements Reviewer {
 	@Override
 	public String getFullName() {
 		return firstName + " " + lastName;
+	}
+
+	public String getProfilePicUrl() {
+		return profilePicUrl;
+	}
+
+	public void setProfilePicUrl(String profilePicUrl) {
+		this.profilePicUrl = profilePicUrl;
 	}
 
 	@Override

@@ -1,11 +1,13 @@
 package com.fastturtle.hibernateallmappingsspringboot;
 
 import com.fastturtle.hibernateallmappingsspringboot.entity.*;
+import com.fastturtle.hibernateallmappingsspringboot.repository.BookReferredRepository;
 import com.fastturtle.hibernateallmappingsspringboot.repository.DesignerRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
@@ -19,7 +21,12 @@ public class SampleDataInitializerTests {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private BookReferredRepository bookReferredRepository;
+
     @Test
+    @Transactional
+    @Rollback(false)
     public void testInsertIntoEntitiesOneByOne() {
         // Sample data for CoderDetail
         String[] githubProfileUrls = {
@@ -129,6 +136,13 @@ public class SampleDataInitializerTests {
             designerRepository.save(designer);
 
         }
+
+        Designer designer2 = designerRepository.findById(2).get();
+        BookReferred bookReferred3 = bookReferredRepository.findById(3).get();
+        designer2.addBook(bookReferred3);
+        designerRepository.save(designer2);
+
+
 
     }
 }
