@@ -1,0 +1,31 @@
+.user-menu {
+    position: relative;
+    display: inline-block;
+}
+
+.user-menu-content {
+    display: none;
+    position: absolute;
+    right: 0;
+    background-color: #fff;
+    min-width: 160px;
+    border: 1px solid #ddd;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    z-index: 1000;
+}
+
+.user-menu-content.show {
+    display: block;
+}
+
+.user-menu-content button {
+    width: 100%;
+    padding: 8px 12px;
+    border: none;
+    background: none;
+    text-align: left;
+}
+
+.user-menu-content button:hover {
+    background-color: #f8f9fa;
+}
