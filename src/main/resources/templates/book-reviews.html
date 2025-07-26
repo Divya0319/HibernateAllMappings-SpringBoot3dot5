@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
     <head>
         <meta charset="UTF-8">
         <meta name="_csrf" th:content="${_csrf.token}" />
@@ -24,6 +24,7 @@
                         Hello, <span th:text="${loggedInUserName}">User</span> ▼
                     </button>
                     <div class="user-menu-content" id="userMenu">
+                        <a th:href="@{/reviewer-dashboard}" class="btn">Profile</a>
                         <form th:action="@{/logout}" method="post">
                             <button type="submit" class="text-danger">Logout</button>
                         </form>
