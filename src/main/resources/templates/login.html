@@ -17,7 +17,9 @@
                 <div class="form-group d-flex flex-column align-items-center">
                     <div class="w-100 mb-3">
                         <label for="username" class="form-label">Email:</label>
-                        <input type="text" id="username" name="username" class="form-control" required/>
+                        <input type="text" id="username" name="username"
+                               th:value="${param.username}"
+                               class="form-control" required/>
                     </div>
 
                     <div class="w-100 mb-3">
