@@ -1,0 +1,51 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+
+        <title>Book Reviews</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- Bootstrap CSS CDN -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    </head>
+    <body>
+        <div class="container mt-5">
+            <div class="card shadow rounded-4 p-4">
+                <div class="row mb-4">
+                    <div class="row mb-4">
+                        <div class="col-md-8">
+                            <!-- Full Name as Title -->
+                            <h3 class="mb-1">
+                                <span th:text="${reviewer.firstName + ' ' + reviewer.lastName}">John Doe</span>
+                            </h3>
+                            <!-- Designation -->
+                            <p class="text-muted mb-4" th:text="${reviewer.designation}">Senior Java Developer</p>
+
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item" th:if="${reviewer.age != 0}"><strong>Age:</strong> <span th:text="${reviewer.age}">30</span></li>
+                                <li class="list-group-item"><strong>Email:</strong> <span th:text="${reviewer.email}">john.doe@example.com</span></li>
+                                <li class="list-group-item" th:if="${reviewer.githubProfileUrl != null}">
+                                    <strong>GitHub:</strong>
+                                    <a th:href="${reviewer.githubProfileUrl}" target="_blank" th:text="${reviewer.githubProfileUrl}">https://github.com/johndoe</a>
+                                </li>
+                                <li class="list-group-item" th:if="${reviewer.soReputation != 0}">
+                                    <strong>StackOverflow Reputation:</strong> <span th:text="${reviewer.soReputation}">1520</span>
+                                </li>
+                            </ul>
+                        </div>
+
+<!--                        <div class="col-md-4 d-flex align-items-center justify-content-center">-->
+<!--                            <img src="https://via.placeholder.com/150" class="img-fluid rounded-circle border" alt="Profile Picture">-->
+<!--                        </div>-->
+                    </div>
+                </div>
+
+                <h5 class="mb-3">Books Referred</h5>
+                <ul class="list-group">
+                    <li class="list-group-item" th:each="book : ${reviewer.booksReferred}">
+                        <strong th:text="${book}">Clean Code</strong>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </body>
+</html>
