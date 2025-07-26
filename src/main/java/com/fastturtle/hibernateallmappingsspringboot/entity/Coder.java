@@ -36,6 +36,8 @@ public class Coder implements Reviewer {
 										CascadeType.MERGE
 											})
 	private List<BookReferred> booksReferred;
+
+	private String profilePicUrl;
 	
 	
 	public Coder() {
@@ -122,6 +124,14 @@ public class Coder implements Reviewer {
 	@Override
 	public String getFullName() {
 		return firstName + " " + lastName;
+	}
+
+	public String getProfilePicUrl() {
+		return profilePicUrl;
+	}
+
+	public void setProfilePicUrl(String profilePicUrl) {
+		this.profilePicUrl = profilePicUrl;
 	}
 
 	@Override
