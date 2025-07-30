@@ -44,6 +44,7 @@ public class ReviewerController {
             reviewerDTO.setEmail(coder.getEmail());
             reviewerDTO.setDesignation("Coder");
             reviewerDTO.setGithubProfileUrl(coderDetail.getGithubProfileUrl());
+            reviewerDTO.setProfilePicUrl(coder.getProfilePicUrl());
             reviewerDTO.setSoReputation(coderDetail.getSoRep());
 
             List<String> bookNames = new ArrayList<>();
@@ -63,6 +64,7 @@ public class ReviewerController {
 
             reviewerDTO.setAge(0);
             reviewerDTO.setGithubProfileUrl(null);
+            reviewerDTO.setProfilePicUrl(designer.getProfilePicUrl());
             reviewerDTO.setSoReputation(0);
 
             List<String> bookNames = new ArrayList<>();

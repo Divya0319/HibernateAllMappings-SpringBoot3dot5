@@ -11,6 +11,7 @@ public class ReviewerDTO {
     private String email;
     private String designation;
     private String githubProfileUrl;
+    private String profilePicUrl;
     private int soReputation;
     private List<String> booksReferred;
 
@@ -68,6 +69,14 @@ public class ReviewerDTO {
 
     public void setGithubProfileUrl(String githubProfileUrl) {
         this.githubProfileUrl = githubProfileUrl;
+    }
+
+    public String getProfilePicUrl() {
+        return profilePicUrl;
+    }
+
+    public void setProfilePicUrl(String profilePicUrl) {
+        this.profilePicUrl = profilePicUrl;
     }
 
     public int getSoReputation() {

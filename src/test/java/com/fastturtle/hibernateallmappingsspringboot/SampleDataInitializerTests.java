@@ -41,6 +41,13 @@ public class SampleDataInitializerTests {
         // Sample data for Coder
         String[] firstNames = {"John", "Alice", "Bob", "Emily", "Michael"};
         String[] lastNames = {"Doe", "Smith", "Johnson", "Brown", "Davis"};
+        String[] coderProfilePicUrls = {
+                "https://i.ibb.co/QvQK1b64/coder1-picsum.jpg",
+                "https://i.ibb.co/KjMg5S56/girl1-picsum.jpg",
+                "https://i.ibb.co/MyBDYczm/coder2-picsum.jpg",
+                "https://i.ibb.co/sJDQWcWk/girl2-picsum.jpg",
+                "https://i.ibb.co/27mXMPwD/camera-guy1-picsum.jpg"
+        };
         int[] ages = {30, 25, 28, 35, 40};
         String[] emails = {"john.doe@example.com", "alice.smith@example.com", "bob.johnson@example.com", "emily.brown@example.com",
                 "michael.davis@example.com"};
@@ -58,6 +65,14 @@ public class SampleDataInitializerTests {
                 "emma.taylor@example.com",
                 "ryan.clark@example.com",
                 "olivia.anderson@example.com"
+        };
+
+        String[] designerProfilePicUrls = {
+                "https://i.ibb.co/Kp4CM33X/writer-picsum.jpg",
+                "https://i.ibb.co/TVdS53r/guy2-picsum.jpg",
+                "https://i.ibb.co/5hdjVqk3/lamp-snowfall-picsum.jpg",
+                "https://i.ibb.co/q3BD3Y6d/gamer1-picsum.jpg",
+                "https://i.ibb.co/kVLV6rDC/designer1-picsum.jpg"
         };
 
         String[] designerPasswords = {
@@ -106,6 +121,7 @@ public class SampleDataInitializerTests {
 
             // Create and save Coder
             Coder coder = new Coder(firstNames[i], lastNames[i], ages[i], emails[i]);
+            coder.setProfilePicUrl(coderProfilePicUrls[i]);
             coder.setPassword(passwordEncoder.encode(coderPasswords[i]));
             coder.setCoderDetail(coderDetail);
 
@@ -114,6 +130,7 @@ public class SampleDataInitializerTests {
             designer.setFirstName(firstNamesDes[i]);
             designer.setLastName(lastNamesDes[i]);
             designer.setEmail(emailsDes[i]);
+            designer.setProfilePicUrl(designerProfilePicUrls[i]);
             designer.setPassword(passwordEncoder.encode(designerPasswords[i]));
 
             // Create BookReview
