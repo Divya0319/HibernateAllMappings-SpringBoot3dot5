@@ -30,50 +30,49 @@ public class ReviewerController {
     @GetMapping("/reviewer-dashboard")
     public String reviewerDashboard(@AuthenticationPrincipal UserDetails userDetails, Model model) {
 
-        ReviewerDTO reviewerDTO = new ReviewerDTO();
+        ReviewerDTO reviewerDTO;
         boolean isCoder = userDetails.getAuthorities().stream()
                 .anyMatch(a -> a.getAuthority().equals("ROLE_CODER"));
 
         if(isCoder) {
             Coder coder = coderService.fetchCoderByEmail(userDetails.getUsername());
             CoderDetail coderDetail = coder.getCoderDetail();
-            reviewerDTO.setId(coder.getId());
-            reviewerDTO.setFirstName(coder.getFirstName());
-            reviewerDTO.setLastName(coder.getLastName());
-            reviewerDTO.setAge(coder.getAge());
-            reviewerDTO.setEmail(coder.getEmail());
-            reviewerDTO.setDesignation("Coder");
-            reviewerDTO.setGithubProfileUrl(coderDetail.getGithubProfileUrl());
-            reviewerDTO.setProfilePicUrl(coder.getProfilePicUrl());
-            reviewerDTO.setSoReputation(coderDetail.getSoRep());
 
-            List<String> bookNames = new ArrayList<>();
+            List<String> bookNames = coder.getBooksReferred().stream()
+                    .map(BookReferred::getTitle)
+                    .toList();
 
-            for(BookReferred b : coder.getBooksReferred()) {
-                bookNames.add(b.getTitle());
-            }
-
-            reviewerDTO.setBooksReferred(bookNames);
+            reviewerDTO = new ReviewerDTO(
+                    coder.getId(),
+                    coder.getFirstName(),
+                    coder.getLastName(),
+                    coder.getAge(),
+                    coder.getEmail(),
+                    "Coder",
+                    coderDetail.getGithubProfileUrl(),
+                    coder.getProfilePicUrl(),
+                    coderDetail.getSoRep(),
+                    bookNames
+            );
         } else {
             Designer designer = designerService.fetchDesignerByEmail(userDetails.getUsername());
-            reviewerDTO.setId(designer.getId());
-            reviewerDTO.setFirstName(designer.getFirstName());
-            reviewerDTO.setLastName(designer.getLastName());
-            reviewerDTO.setEmail(designer.getEmail());
-            reviewerDTO.setDesignation("Designer");
 
-            reviewerDTO.setAge(0);
-            reviewerDTO.setGithubProfileUrl(null);
-            reviewerDTO.setProfilePicUrl(designer.getProfilePicUrl());
-            reviewerDTO.setSoReputation(0);
+            List<String> bookNames = designer.getBooksReferred().stream()
+                    .map(BookReferred::getTitle)
+                    .toList();
 
-            List<String> bookNames = new ArrayList<>();
-
-            for(BookReferred b : designer.getBooksReferred()) {
-                bookNames.add(b.getTitle());
-            }
-
-            reviewerDTO.setBooksReferred(bookNames);
+            reviewerDTO = new ReviewerDTO(
+                    designer.getId(),
+                    designer.getFirstName(),
+                    designer.getLastName(),
+                    0,
+                    designer.getEmail(),
+                    "Designer",
+                    null,
+                    designer.getProfilePicUrl(),
+                    0,
+                    bookNames
+            );
         }
 
         model.addAttribute("reviewer", reviewerDTO);
